@@ -62,6 +62,7 @@ def process_event(assistant, event):
             print('Say "OK, Google" then speak, or press Ctrl+C to quit...')
 
     elif event.type == EventType.ON_CONVERSATION_TURN_STARTED:
+        subprocess.call('aplay -D default $HOME/AIY-projects-python/src/examples/voice/beep.wav', shell=True)
         status_ui.status('listening')
 
     elif event.type == EventType.ON_RECOGNIZING_SPEECH_FINISHED and event.args:
