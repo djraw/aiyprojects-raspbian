@@ -81,12 +81,16 @@ def process_event(assistant, event):
     elif event.type == EventType.ON_END_OF_UTTERANCE:
         status_ui.status('thinking')
 
-    elif (event.type == EventType.ON_CONVERSATION_TURN_FINISHED
-          or event.type == EventType.ON_CONVERSATION_TURN_TIMEOUT
+    elif event.type == EventType.ON_CONVERSATION_TURN_FINISHED:
+        status_ui.status('ready')
+
+    elif (event.type == EventType.ON_CONVERSATION_TURN_TIMEOUT
           or event.type == EventType.ON_NO_RESPONSE):
+        subprocess.call('aplay -D default $HOME/AIY-projects-python/src/examples/voice/beep-negative.wav', shell=True)
         status_ui.status('ready')
 
     elif event.type == EventType.ON_ASSISTANT_ERROR and event.args and event.args['is_fatal']:
+        subprocess.call('aplay -D default $HOME/AIY-projects-python/src/examples/voice/beep-negative.wav', shell=True)
         sys.exit(1)
 
 
