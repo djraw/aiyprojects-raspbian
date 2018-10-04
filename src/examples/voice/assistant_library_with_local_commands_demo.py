@@ -62,7 +62,6 @@ def process_event(assistant, event):
             print('Say "OK, Google" then speak, or press Ctrl+C to quit...')
 
     elif event.type == EventType.ON_CONVERSATION_TURN_STARTED:
-        subprocess.call('aplay -D default $HOME/AIY-projects-python/src/examples/voice/beep.wav', shell=True)
         status_ui.status('listening')
 
     elif event.type == EventType.ON_RECOGNIZING_SPEECH_FINISHED and event.args:
@@ -81,16 +80,12 @@ def process_event(assistant, event):
     elif event.type == EventType.ON_END_OF_UTTERANCE:
         status_ui.status('thinking')
 
-    elif event.type == EventType.ON_CONVERSATION_TURN_FINISHED:
-        status_ui.status('ready')
-
-    elif (event.type == EventType.ON_CONVERSATION_TURN_TIMEOUT
+    elif (event.type == EventType.ON_CONVERSATION_TURN_FINISHED
+          or event.type == EventType.ON_CONVERSATION_TURN_TIMEOUT
           or event.type == EventType.ON_NO_RESPONSE):
-        subprocess.call('aplay -D default $HOME/AIY-projects-python/src/examples/voice/beep-negative.wav', shell=True)
         status_ui.status('ready')
 
     elif event.type == EventType.ON_ASSISTANT_ERROR and event.args and event.args['is_fatal']:
-        subprocess.call('aplay -D default $HOME/AIY-projects-python/src/examples/voice/beep-negative.wav', shell=True)
         sys.exit(1)
 
 
